@@ -39,3 +39,9 @@ describe('Obtem uma lista de produtos - Model', () => {
 
   });
 });
+
+describe('verifica a busca de um produto por "id"', () => {
+  
+  it("se o id existir retorna o produto")
+  it('verifica se o retorno é um objeto')
+})

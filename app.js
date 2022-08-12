@@ -1,5 +1,6 @@
 const express = require('express');
 const productsRoute = require('./routes/ProductsRoute');
+const salesRoute = require('./routes/salesRouter');
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.get('/', (_request, response) => {
 // você deve usar o arquivo index.js para executar sua aplicação
 app.use(express.json());
 app.use('/products', productsRoute);
+app.use('/sales', salesRoute);
 
 module.exports = app; 
