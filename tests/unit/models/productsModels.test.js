@@ -40,8 +40,25 @@ describe('Obtem uma lista de produtos - Model', () => {
   });
 });
 
-describe('verifica a busca de um produto por "id"', () => {
-  
-  it("se o id existir retorna o produto")
-  it('verifica se o retorno é um objeto')
-})
+//  describe('verifica a busca de um produto por "id"', async () => {
+//    before(() => {
+//      const execute = [{
+//        id: 1,
+//        name: 'examplo_name',
+//      }, ];
+
+//      sinon.stub(connection, 'execute').resolves(execute);
+//    });
+
+//    after(() => {
+//      connection.execute.restore();
+//    });
+
+//    it('verifica se retorna um produto com "id" e "name"', async () => {
+//      const response = await productsModel.getProduct('1');
+
+//      expect(response).to.be.a('object');
+//      expect(response).to.have.a.property('id');
+//      expect(response).to.have.a.property('name');
+//    });
+//  });
