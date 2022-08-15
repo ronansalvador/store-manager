@@ -39,49 +39,43 @@ describe("Obtem uma lista de produtos- Service", () => {
   });
 });
 
- describe('obter produto por ID', () => {
-   describe('Em caso de sucesso', () => {
+ describe('Busca apenas um produto por ID no BD', () => {
+
+   describe('quando existe o produto com o ID informado', () => {
+
      before(() => {
-       const execute = [{
-         id: 1,
-         name: 'example_name'
-       }];
-
-       sinon.stub(productsModel, 'getProduct').resolves(execute);
+       sinon.stub(ProductsModel, 'getProduct')
+         .resolves({
+           "id": 2,
+           "name": "Traje de encolhimento"
+         });
      });
-
      after(() => {
-       productsModel.getProduct.restore();
+       ProductsModel.getProduct.restore();
      });
 
-     it('verifica se retorna um objeto com "code" e "response"', async () => {
-       const response = await productsService.getProduct('1');
-
-       expect(response).to.be.a('object');
-
-       expect(response).to.have.a.property('code');
-       expect(response).to.have.a.property('response');
+     it('retorna um objeto', async () => {
+       const result = await ProductsService.getProduct(2);
+       expect(result).to.be.an('object');
+     });
+     it('retorna um objeto com as keys "id" e "name"', async () => {
+       const result = await ProductsService.getProduct(2);
+       expect(result).to.includes.all.keys('id', 'name');
      });
    });
 
-   describe('Em caso de falha', () => {
+   describe('quando não existe produtos no BD com o ID informado', () => {
+
      before(() => {
-       const execute = [];
-
-       sinon.stub(productsModel, 'getProduct').resolves(execute);
+       sinon.stub(ProductsModel, 'getProduct').resolves(true)
      });
-
      after(() => {
-       productsModel.getProduct.restore();
+       ProductsModel.getProduct.restore();
      });
 
-     it('verifica se reotrna um objeto com "code" e "message"', async () => {
-       const response = await productsService.getProduct('2');
-
-       expect(response).to.be.a('object');
-
-       expect(response).to.have.a.property('code');
-       expect(response).to.have.a.property('message');
+     it('retorna false', async () => {
+       const result = await ProductsService.getProduct();
+       expect(!result).to.be.equal(false);
      });
    });
  });

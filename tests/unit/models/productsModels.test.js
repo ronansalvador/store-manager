@@ -40,25 +40,28 @@ describe('Obtem uma lista de produtos - Model', () => {
   });
 });
 
-//  describe('verifica a busca de um produto por "id"', async () => {
-//    before(() => {
-//      const execute = [{
-//        id: 1,
-//        name: 'examplo_name',
-//      }, ];
+ describe('Busca apenas um produto por ID no BD', () => {
 
-//      sinon.stub(connection, 'execute').resolves(execute);
-//    });
+   describe('quando existe o produto com o ID informado', () => {
 
-//    after(() => {
-//      connection.execute.restore();
-//    });
+     before(() => {
+       sinon.stub(ProductsModel, 'getProduct')
+         .resolves({
+           "id": 2,
+           "name": "Traje de encolhimento"
+         });
+     });
+     after(() => {
+       ProductsModel.getProduct.restore();
+     });
 
-//    it('verifica se retorna um produto com "id" e "name"', async () => {
-//      const response = await productsModel.getProduct('1');
-
-//      expect(response).to.be.a('object');
-//      expect(response).to.have.a.property('id');
-//      expect(response).to.have.a.property('name');
-//    });
-//  });
+     it('retorna um objeto', async () => {
+       const result = await ProductsModel.getProduct(2);
+       expect(result).to.be.an('object');
+     });
+     it('retorna um objeto com as keys "id" e "name"', async () => {
+       const result = await ProductsModel.getProduct(2);
+       expect(result).to.includes.all.keys('id', 'name');
+     });
+   });
+ });
