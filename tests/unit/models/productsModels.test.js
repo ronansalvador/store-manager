@@ -43,14 +43,14 @@ describe('Obtem uma lista de produtos - Model', () => {
    describe('quando existe o produto com o ID informado', () => {
 
      before(() => {
-       sinon.stub(ProductsModel, 'getProduct')
-         .resolves({
+       sinon.stub(connection, 'execute')
+         .resolves([[{
            "id": 2,
            "name": "Traje de encolhimento"
-         });
+         }]]);
      });
      after(() => {
-       ProductsModel.getProduct.restore();
+       connection.execute.restore();
      });
 
      it('retorna um objeto', async () => {
@@ -59,7 +59,6 @@ describe('Obtem uma lista de produtos - Model', () => {
      });
      it('retorna um objeto com as keys "id" e "name"', async () => {
        const result = await ProductsModel.getProduct(2);
-
        expect(result).to.includes.all.keys('id', 'name');
      });
   
