@@ -79,3 +79,29 @@ describe("Obtem uma lista de produtos- Service", () => {
      });
    });
  });
+
+ describe('Criando um produto', () => {
+   describe('Em caso de sucesso', () => {
+     before(() => {
+       const execute = [{
+         insertId: 1
+       }];
+
+       sinon.stub(ProductsModel, 'createProduct').resolves(execute);
+     });
+
+     after(() => {
+       ProductsModel.createProduct.restore();
+     });
+
+     it('verifica se retorna "code" e "response"', async () => {
+       const response = await ProductsService.createProduct('1');
+
+       expect(response).to.be.a('object');
+
+       expect(response).to.have.a.property('code');
+       expect(response).to.have.a.property('response');
+     });
+   });
+ });
+
