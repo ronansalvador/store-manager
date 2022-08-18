@@ -1,7 +1,5 @@
 const sinon = require("sinon");
-const {
-  expect
-} = require("chai");
+const { expect } = require("chai");
 const ProductsModel = require("../../../models/ProductsModel");
 const connection = require("../../../models/connection");
 
@@ -61,7 +59,60 @@ describe('Obtem uma lista de produtos - Model', () => {
      });
      it('retorna um objeto com as keys "id" e "name"', async () => {
        const result = await ProductsModel.getProduct(2);
+
        expect(result).to.includes.all.keys('id', 'name');
      });
+  
    });
  });
+
+describe('Cria um novo produto no BD - testando model', () => {
+  const newProduct = [{
+    name: 'The Spectacular Spider Man',
+  }, ];
+
+  before(async () => {
+    sinon.stub(connection, 'execute').resolves([newProduct]);
+  });
+  after(async () => {
+    connection.execute.restore();
+  });
+  it('retorna o novo produto no BD', async () => {
+    const resultado = await ProductsModel.createProduct();
+    expect(resultado).to.be.equal(newProduct);
+  });
+});
+
+describe('Deletanto um produto um novo produto no BD - testando model', () => {
+  const resolve = {
+    affectedRows: 1
+  }
+
+  before(async () => {
+    sinon.stub(connection, 'execute').resolves([resolve]);
+  });
+  after(async () => {
+    connection.execute.restore();
+  });
+  it('verifica se o retorno é true', async () => {
+    const resultado = await ProductsModel.deleteProduct();
+    expect(resultado).to.be.equal(true);
+  });
+});
+
+describe('Deletanto um produto um novo produto no BD - testando model', () => {
+  const resolve = {
+    affectedRows: 0
+  }
+
+  before(async () => {
+    sinon.stub(connection, 'execute').resolves([resolve]);
+  });
+  after(async () => {
+    connection.execute.restore();
+  });
+  it('verifica se o retorno é false', async () => {
+    const resultado = await ProductsModel.deleteProduct();
+    expect(resultado).to.be.equal(false);
+  });
+});
