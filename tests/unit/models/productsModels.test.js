@@ -82,6 +82,25 @@ describe('Cria um novo produto no BD - testando model', () => {
   });
 });
 
+describe('Alterando o nome de um produto no BD - testando model', () => {
+  const resolve = {
+    affectedRows: 1
+  }
+
+  before(async () => {
+    sinon.stub(connection, 'execute').resolves([resolve]);
+  });
+  after(async () => {
+    connection.execute.restore();
+  });
+  it('verifica se o retorno é true', async () => {
+    const resultado = await ProductsModel.updateProduct('teste Ronan', 1);
+    expect(resultado).to.be.an('object');
+  });
+});
+
+
+
 describe('Deletanto um produto um novo produto no BD - testando model', () => {
   const resolve = {
     affectedRows: 1
